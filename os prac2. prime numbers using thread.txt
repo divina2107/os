@@ -1,0 +1,28 @@
+os prac2. Program to display the prime numbers using thread 
+
+import threading
+
+def is_prime(num1, num2):
+    print(f"The Current Running Thread: {threading.current_thread().name}")
+    for i in range(num1, num2 + 1):
+        for j in range(2, i):
+            if i % j == 0:
+                break
+        else:
+            print(f"Prime Number Between {num1} and {num2} is {i}")
+
+t1 = threading.Thread(target=is_prime, args=(15, 20), name="Thread 1")
+t2 = threading.Thread(target=is_prime, args=(25, 35), name="Thread 2")
+t3 = threading.Thread(target=is_prime, args=(40, 55), name="Thread 3")
+
+
+print(f"The Current Running Thread: {threading.current_thread().name}")
+t1.start()
+t2.start()
+t3.start()
+t1.join()
+t2.join()
+t3.join()
+
+print(f"The Current Running Thread: {threading.current_thread().name}")
+print("All Threads Completed!!!")

@@ -1,0 +1,38 @@
+os prac5. INTER-PROCESS COMMUNICATION USING 
+MULTIPROCESSING. 
+
+script_code='''
+from multiprocessing import Process,Queue
+import multiprocessing
+import time
+
+def sender(q):
+    for i in range(10):
+        print(f"Sending: {i}",flush=True)
+        q.put(i)
+        time.sleep(1)
+
+def receiver(q):
+    for i in range(10):
+        data=q.get()
+        time.sleep(1)
+        print(f"Received:{data}",flush=True)
+
+if __name__ == '__main__':
+    multiprocessing.freeze_support()
+
+    queue=Queue()
+    process1=Process(target=sender,args=(queue,))
+    process2=Process(target=receiver,args=(queue,))
+    process1.start()
+    process2.start()
+    process1.join()
+    process2.join()
+'''
+
+with open("ipc_test.py", "w") as f:
+    f.write(script_code)
+
+
+
+!python ipc_test.py

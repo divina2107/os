@@ -1,0 +1,45 @@
+os prac11
+
+
+
+while true
+do
+echo "Choose any of the following operations"
+echo "1.Addition"
+echo "2.Subtraction"
+echo "3.Multiplication"
+echo "4.Division"
+echo "5.Quit"
+echo "Enter your choice"
+read n
+if [ "$n" -eq 5 ]
+then
+echo "Exiting your choice"
+break
+fi
+echo "Enter the first number"
+read num1
+echo "Enter the second number"
+read num2
+case "$n" in
+"1")
+result=`expr $num1 + $num2`
+echo "Sum: $result"
+;;
+"2")
+result=`expr $num1 - $num2`
+echo "Difference: $result"
+;;
+"3")
+result=`expr $num1 \* $num2`
+echo "Multiplication: $result"
+;;
+"4")
+result=`expr $num1 / $num2`
+echo "Divison: $result"
+;;
+*)
+echo "Enter choice only betwwen 1 to 5"
+;;
+esac
+done

@@ -1,0 +1,28 @@
+os prac4. INTER-PROCESS COMMUNICATION USING 
+MULTIPROCESSING.DEMO MODULE 
+
+from multiprocessing.dummy import Process, Queue
+import time
+
+def sender(q):
+    messages=["Message 1", "Message 2", "Message 3"]
+    for message in messages:
+        q.put(message)
+        print(f"Sender: {message}")
+        time.sleep(10)
+
+def receiver(q):
+    while True:
+        message = q.get()
+        time.sleep(10)
+        print(f"Received:{message}")
+        if message=="Done":
+            break
+
+queue=Queue()
+process1=Process(target=sender, args=(queue,))
+process2=Process(target=receiver, args=(queue,))
+process1.start()
+process2.start()
+process1.join()
+process2.join()

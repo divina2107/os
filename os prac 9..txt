@@ -1,0 +1,13 @@
+os prac 9. 
+
+echo "Enter the number fo summation:"
+read n
+i=1
+sum=0
+
+until [ "$i" -gt "$n" ]
+do
+sum=`expr $sum + $i`
+i=`expr $i + 1`
+done
+echo "The summation of $n is $sum"

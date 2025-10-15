@@ -1,0 +1,29 @@
+os prac3. Program to display the Fibonacci series using thread. 
+
+import threading
+
+def fibonacci(num):
+    print(f"The Current Running Thread: {threading.current_thread().name}")
+    print(f"Fibonacci of {num} is")
+    a,b = 0,1
+    print(a,b, end=" ")
+    for i in range(2,num):
+        a,b=b,a+b
+        print(b,end=" ")
+    print()
+
+t1 = threading.Thread(target=fibonacci, args=(15,), name="Thread 1")
+t2 = threading.Thread(target=fibonacci, args=(20,), name="Thread 2")
+t3 = threading.Thread(target=fibonacci, args=(25,), name="Thread 3")
+
+
+print(f"The Current Running Thread: {threading.current_thread().name}")
+t1.start()
+t2.start()
+t3.start()
+t1.join()
+t2.join()
+t3.join()
+
+print(f"The Current Running Thread: {threading.current_thread().name}")
+print("All Threads Completed!!!")

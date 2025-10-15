@@ -1,0 +1,31 @@
+os prac10
+
+echo "display grade of a student:"
+echo "enter total marks:"
+read total
+echo "enter out off marks:"
+read outoff
+
+percent=`expr $total \* 100 / $outoff`
+if [ "$percent" -ge 80 ]
+then
+echo "Grade O"
+elif [ "$percent" -ge 70 ]
+then
+echo "Grade A"
+elif [ "$percent" -ge 60 ]
+then
+echo "Grade B"
+elif [ "$percent" -ge 50 ]
+then
+echo "Grade C"
+elif [ "$percent" -ge 40 ]
+then
+echo "Grade D"
+elif [ "$percent" -ge 30 ]
+then
+echo "Grade E"
+else
+echo "Grade F"
+fi
+:wp

@@ -1,0 +1,70 @@
+os prac7. PYTHON APPLICATION TO SIMULATE PROCESS 
+SYNCHRONISATION USING SEMAPHORRE
+
+from threading import Thread
+import time
+
+# A shared buffer is defined as an object of the following class
+class Buffer:
+    def __init__(self, size):
+        self.size = size
+        self.b = [0]*size
+        self.into = 0
+        self.out = 0
+        self.empty = threading.Semaphore(size)
+        self.full = threading.Semaphore(0)
+        self.mutex = threading.Semaphore(1)
+
+    def getvalue(self): #this is a function that will be invoked by consumer
+        self.mutex.acquire()
+        item = self.b[self.out]
+        self.out = (self.out + 1) % self.size
+        self.mutex.release()
+        return item
+
+    def putvalue(self, value): #function invoked by prodeucer
+        self.mutex.acquire()
+        self.b[self.into] = value
+        self.into = (self.into + 1) % self.size
+        self.mutex.release()
+
+class Producer(Thread):
+    def __init__(self, buffer1):
+        super(Producer, self).__init__()
+        self.buffer1 = buffer1
+
+    def run(self):
+        i = 1
+        while True:
+            i += 1
+            self.buffer1.empty.acquire() #if semaphore is less than or equal to zero the process
+                                        #enter the waiting state else the semaphore value is decremented by 1
+            self.buffer1.mutex.acquire()
+            self.buffer1.putvalue(i)
+            self.buffer1.full.release() #increments the semaphore value by 1
+            self.buffer1.mutex.release()
+            print(f"\n{i} is put in the buffer")
+            time.sleep(10)
+
+class Consumer(Thread):
+    def __init__(self, buffer1):
+        super(Consumer, self).__init__()
+        self.buffer1 = buffer1
+
+    def run(self):
+        while True:
+            self.buffer1.full.acquire()
+            self.buffer1.mutex.acquire()
+            item = self.buffer1.getvalue()
+            self.buffer1.empty.release() #increments the semaphore value by 1
+            self.buffer1.mutex.release()
+            print(f"\n{item} is consumed from the buffer")
+            time.sleep(10)
+
+buffer1 = Buffer(5)
+p = Producer(buffer1)
+c = Consumer(buffer1)
+p.start()
+c.start()
+p.join()
+c.join()

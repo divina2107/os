@@ -1,0 +1,38 @@
+os prac6. APPLICATION ON THE FCFS ALGORITHM 
+
+def getwaitingtime(n,bt,at,wt):
+    st=[0]*n
+    for i in range(1,n):
+        st[i] = st[i-1] + bt[i-1]
+        wt[i] = st[i] - at[i]
+
+def getturnaroundtime(n,bt,wt,tt):
+    for i in range(n):
+        tt[i] = wt[i] + bt[i]
+
+def display(n,pid,bt,at):
+    wt=[0]*n #getwaitingtime function
+    tt=[0]*n
+    
+    getwaitingtime(n,bt,at,wt)
+    getturnaroundtime(n,bt,wt,tt)
+
+    totalwt=0
+    totaltt=0
+
+    print("Process\tBurst\tArrival\tWaiting\tTurnaround")
+    for i in range(n):
+        totalwt = totalwt + wt[i]
+        totaltt = totaltt + tt[i]
+        print(f"{pid[i]}\t{bt[i]}\t{at[i]}\t{wt[i]}\t{tt[i]}")
+    avgwt = totalwt/n
+    avgtt = totaltt/n
+
+    print("Average Waiting time:",round(avgwt,2))
+    print("Average Turnaround time:",round(avgtt,2))
+
+n=int(input("Enter no. of Processes:"))
+process_ids_list=list(map(str,input("Enter process ids sorted by space:").split()))
+bursttime_list=list(map(int,input("Enter CPU Burst time separated by space:").split()))
+arrivaltime_list=list(map(int,input("Enter CPU Arrival time separated by space:").split()))
+display(n,process_ids_list,bursttime_list,arrivaltime_list)
